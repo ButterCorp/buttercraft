@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#viewfinder{
+  position: fixed;
+
+  top: calc(50% - 100px);
+
+  left: calc(50% - 100px);
+
+  width: 250px;
+
+  height: 250px;
+
+  background-image: url('visor.png');
+
+  background-size: cover;
+
+}
+
+#butter {
+  position: fixed;
+
+  top: calc(15% - 100px);
+
+  left: auto;
+
+  width: 100px;
+
+  height: 100px;
+
+  background-image: url('butter.png');
+
+  background-size: cover;
+
+}

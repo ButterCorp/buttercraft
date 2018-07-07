@@ -1,0 +1,9 @@
+.DS_Store
+node_modules/
+yarn.lock
+package-lock.json
+
+*.bak
+exo*.js
+helloworld.js
+shaders/
