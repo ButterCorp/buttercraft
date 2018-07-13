@@ -1,5 +1,5 @@
 /**************************************************/
-/* Butter-craft                                   */
+/*              Butter-craft                      */
 /**************************************************/
 
 // styles
@@ -54,6 +54,27 @@ function init() {
 
             scene.add(mesh);
         }
+    }
+    var hauteur = 0;
+    var longueur = 0;
+
+    for (var k = 0; k <= 5; k++) {
+
+        for (var y = 0; y <= 29; y++) {
+            var geometry4 = new THREE.BoxGeometry(2, 2, 2);
+            var texture = new THREE.TextureLoader().load( 'images/mine.jpg' ); // Relatif au dossier build du projet
+            var material4 = new THREE.MeshBasicMaterial( { map: texture } );
+
+            var mesh4 = new THREE.Mesh(geometry4, material4);
+            mesh4.position.x = longueur
+            mesh4.position.z = -58
+            mesh4.position.y = hauteur;
+            longueur = longueur -2;
+
+            scene.add(mesh4);
+        }
+        hauteur = hauteur+2;
+        longueur = 0;
     }
 
     // renderer
@@ -195,6 +216,17 @@ function animate() {
 
 }
 
+Number.prototype.roundTo = function(num) {
+    var nombre = this*(-1)
+
+    var resto = nombre%num;
+    if (resto <= (num/2)) { 
+        return (nombre-resto)*(-1);
+    } else {
+        return (nombre+num-resto)*(-1);
+    }
+}
+
 document.addEventListener('keypress', (event) => {
   
   const nomTouche = event.key;
@@ -204,11 +236,14 @@ document.addEventListener('keypress', (event) => {
 
      if (intersects.length != 0) {
         console.log(intersects)
-        var appX = Math.round(intersects[0].point.x);
+        console.log("x avant function = "+intersects[0].point.x)
+        console.log("z avant function = "+intersects[0].point.z)
+        var appX = intersects[0].point.x.roundTo(2);
         var appY = Math.round(intersects[0].point.y);
-        var appZ = Math.round(intersects[0].point.z);
+        var appZ = intersects[0].point.z.roundTo(2);
 
-        console.log(appX)
+        console.log("x apres function = "+appX)
+        console.log("z apres function = "+appZ)
         console.log(appY)
         console.log(appZ)
 
