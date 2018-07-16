@@ -38,12 +38,10 @@ function init() {
     // camera
     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
 
-    // cubes floor
+    // cubes floor and color random
     for (var x = 0; x < 30; x++) {
         for (var y = 0; y < 30; y++) {
             var geometry = new THREE.BoxGeometry(2, 2, 2);
-            var texture = new THREE.TextureLoader().load( 'images/mine.jpg' ); // Relatif au dossier build du projet
-            var material = new THREE.MeshBasicMaterial( { map: texture } );
             var material = new THREE.MeshBasicMaterial({
                 color: Math.floor(Math.random() * 16777215)
             });
@@ -55,6 +53,8 @@ function init() {
             scene.add(mesh);
         }
     }
+
+    // wall of cubes
     var hauteur = 0;
     var longueur = 0;
 
@@ -64,7 +64,6 @@ function init() {
             var geometry4 = new THREE.BoxGeometry(2, 2, 2);
             var texture = new THREE.TextureLoader().load( 'images/mine.jpg' ); // Relatif au dossier build du projet
             var material4 = new THREE.MeshBasicMaterial( { map: texture } );
-
             var mesh4 = new THREE.Mesh(geometry4, material4);
             mesh4.position.x = longueur
             mesh4.position.z = -58
@@ -108,7 +107,7 @@ function init() {
         element.requestPointerLock();
     }, false);
 
-
+    //create sun
     var geometry = new THREE.SphereGeometry( 10, 32, 32 );
     var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
     var sun = new THREE.Mesh( geometry, material );
@@ -117,22 +116,26 @@ function init() {
     sun.position.z = -20;
     scene.add( sun );
 
+    //create light
     var light = new THREE.PointLight( 0xffffff, 1, 3000 );
 
     sun.add( light );
     scene.add(new THREE.AmbientLight(0x909090));
 
+    //create earth
     var geometry2 = new THREE.SphereGeometry( 5, 32, 32 );
     var material2 = new THREE.MeshLambertMaterial( {color: 0x0000ff} );
     earth = new THREE.Mesh( geometry2, material2 );
     earth.position.x = -21;
     scene.add( earth );
 
+    //earth rotates around the sun
     pivotObject = new THREE.Object3D();
     sun.add(pivotObject);
     pivotObject.add( earth );
 }
 
+//create stars particules
 function addSphere(){
 
     // The loop will move from z position of -1000 to z position 1000, adding a random particle at each position. 
@@ -161,6 +164,7 @@ function addSphere(){
     }
 }
 
+//animate stars particules
 function animateStars() { 
             
     // loop through each star
@@ -216,6 +220,7 @@ function animate() {
 
 }
 
+//function to fix bug about creation of cubes
 Number.prototype.roundTo = function(num) {
     var nombre = this*(-1)
 
@@ -235,21 +240,13 @@ document.addEventListener('keypress', (event) => {
   if (nomTouche == "c") {
 
      if (intersects.length != 0) {
-        console.log(intersects)
-        console.log("x avant function = "+intersects[0].point.x)
-        console.log("z avant function = "+intersects[0].point.z)
+
         var appX = intersects[0].point.x.roundTo(2);
         var appY = Math.round(intersects[0].point.y);
         var appZ = intersects[0].point.z.roundTo(2);
 
-        console.log("x apres function = "+appX)
-        console.log("z apres function = "+appZ)
-        console.log(appY)
-        console.log(appZ)
-
-
         var geometry4 = new THREE.BoxGeometry(2, 2, 2);
-        var texture = new THREE.TextureLoader().load( 'images/mine.jpg' ); // Relatif au dossier build du projet
+        var texture = new THREE.TextureLoader().load( 'images/mine.jpg' ); 
         var material4 = new THREE.MeshBasicMaterial( { map: texture } );
 
         var mesh4 = new THREE.Mesh(geometry4, material4);
@@ -259,6 +256,7 @@ document.addEventListener('keypress', (event) => {
 
         scene.add(mesh4);  
 
+        //Add move effects when we create a cube with gsap
         myTweenObj = mesh4; 
 
         myTween = TweenLite.to(myTweenObj.rotation, 1, {
